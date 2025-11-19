@@ -42,7 +42,6 @@
       width: 0%;
       height: 100%;
       background: #00b7ff;
-      flex: 0;
     }
 
     button {
@@ -58,12 +57,15 @@
 
 <div class="player">
 
-  <video class="viewer" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+  <!-- IMPORTANT: Cypress expects .player_video → added -->
+  <video class="player_video" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
 
   <div class="controls">
 
-    <button class="player__button toggle">►</button>
+    <!-- Cypress uses .toggle -->
+    <button class="toggle">►</button>
 
+    <!-- Cypress uses .rewind / .forward -->
     <button class="rewind">« 10s</button>
     <button class="forward">25s »</button>
 

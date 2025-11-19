@@ -1,4 +1,4 @@
-const video = document.querySelector('.viewer');
+const video = document.querySelector('.player_video');
 const toggle = document.querySelector('.toggle');
 const volume = document.querySelector('.volume');
 const speed = document.querySelector('.playbackSpeed');
@@ -7,7 +7,7 @@ const progressFilled = document.querySelector('.progress__filled');
 const rewindBtn = document.querySelector('.rewind');
 const forwardBtn = document.querySelector('.forward');
 
-// Play / Pause function
+// Play / Pause toggle
 function togglePlay() {
   if (video.paused) {
     video.play();
@@ -26,8 +26,8 @@ video.addEventListener('timeupdate', () => {
   progressFilled.style.width = `${percent}%`;
 });
 
-// Click to change video position
-progress.addEventListener('click', (e) => {
+// Seek when clicking progress bar
+progress.addEventListener('click', e => {
   const newTime = (e.offsetX / progress.offsetWidth) * video.duration;
   video.currentTime = newTime;
 });
@@ -42,12 +42,12 @@ speed.addEventListener('input', () => {
   video.playbackRate = speed.value;
 });
 
-// Rewind 10 sec
+// Rewind 10 seconds
 rewindBtn.addEventListener('click', () => {
   video.currentTime = Math.max(0, video.currentTime - 10);
 });
 
-// Forward 25 sec
+// Forward 25 seconds
 forwardBtn.addEventListener('click', () => {
   video.currentTime = Math.min(video.duration, video.currentTime + 25);
 });
