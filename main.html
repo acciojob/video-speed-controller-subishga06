@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Custom Video Player</title>
-    <link rel="stylesheet" href="styles.css">
+
     <style>
         .player {
-            max-width: 750px;
+            max-width: 800px;
             margin: 20px auto;
-            border: 2px solid #000;
+            border: 2px solid #222;
         }
 
         .player video {
@@ -18,58 +18,65 @@
         }
 
         .controls {
+            padding: 12px;
+            background: #eee;
             display: flex;
             align-items: center;
             gap: 10px;
-            padding: 10px;
-            background: #f0f0f0;
+        }
+
+        .player__button, button {
+            padding: 5px 10px;
+            background: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
         }
 
         .progress {
             flex: 1;
             height: 10px;
-            background: #ddd;
+            background: #ccc;
             cursor: pointer;
-            position: relative;
         }
 
         .progress__filled {
             width: 0%;
             height: 100%;
-            background: #3498db;
-            flex-basis: 0%;
-        }
-
-        .player__button {
-            cursor: pointer;
-            background: black;
-            color: white;
-            padding: 5px 10px;
-            border: none;
+            background: #007bff;
         }
 
         input[type="range"] {
-            width: 100px;
+            width: 90px;
         }
     </style>
 </head>
 <body>
 
 <div class="player">
-    <video class="viewer" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
+
+    <!-- Cypress expects .player_video -->
+    <video class="viewer player_video" 
+        src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
 
     <div class="controls">
+
+        <!-- Cypress expects .toggle -->
         <button class="player__button toggle">►</button>
 
-        <button data-skip="-10">« 10s</button>
-        <button data-skip="25">25s »</button>
+        <!-- Cypress expects .rewind -->
+        <button class="rewind" data-skip="-10">« 10s</button>
 
-        <input type="range" name="volume" class="volume" min="0" max="1" step="0.05" value="1">
-        <input type="range" name="playbackSpeed" class="playbackSpeed" min="0.5" max="2" step="0.1" value="1">
+        <!-- Cypress expects .forward -->
+        <button class="forward" data-skip="25">25s »</button>
+
+        <input type="range" class="volume" min="0" max="1" step="0.05" value="1">
+        <input type="range" class="playbackSpeed" min="0.5" max="2" step="0.1" value="1">
 
         <div class="progress">
             <div class="progress__filled"></div>
         </div>
+
     </div>
 </div>
 
