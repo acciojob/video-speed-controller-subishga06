@@ -1,58 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Custom Video Player</title>
-  <link rel="stylesheet" href="styles.css" />
+    <meta charset="UTF-8">
+    <title>Video Speed Controller</title>
+    <link rel="stylesheet" href="style.css"> 
 </head>
-
 <body>
-  <div class="player">
+    <div class="player">
+        <video class="player__video viewer" src="https://www.w3schools.com/html/mov_bbb.mp4"></video>
 
-    <!-- VIDEO -->
-    <video 
-      class="viewer player_video" 
-      src="https://www.w3schools.com/html/mov_bbb.mp4">
-    </video>
+        <div class="player__controls">
+            <div class="progress">
+                <div class="progress__filled"></div>
+            </div>
 
-    <!-- CONTROLS -->
-    <div class="controls">
+            <button class="player__button toggle" title="Toggle Play">►</button>
 
-      <!-- PLAY / PAUSE -->
-      <button class="player__button toggle">►</button>
-
-      <!-- PROGRESS BAR -->
-      <div class="progress">
-        <div class="progress__filled"></div>
-      </div>
-
-      <!-- VOLUME -->
-      <label>Volume</label>
-      <input 
-        type="range" 
-        name="volume" 
-        min="0" 
-        max="1" 
-        step="0.05">
-
-      <!-- PLAYBACK SPEED -->
-      <label>Speed</label>
-      <input 
-        type="range" 
-        name="playbackSpeed" 
-        min="0.5" 
-        max="2" 
-        step="0.1">
-
-      <!-- REWIND -->
-      <button class="skip rewind" data-skip="-10">« 10s</button>
-
-      <!-- FORWARD -->
-      <button class="skip forward" data-skip="25">25s »</button>
+            <input type="range" name="volume" class="player__slider" min="0" max="1" step="0.05" value="1">
+            
+            <input type="range" name="playbackSpeed" class="player__slider" min="0.5" max="2" step="0.1" value="1">
+            
+            <button data-skip="-10" class="player__button">« 10s</button>
+            
+            <button data-skip="25" class="player__button">25s »</button>
+        </div>
     </div>
-  </div>
 
-  <script src="scripts.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>
