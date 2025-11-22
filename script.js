@@ -1,4 +1,4 @@
-// SELECT ELEMENTS
+// SELECTORS
 const video = document.querySelector('.player_video');
 const toggle = document.querySelector('.toggle');
 const progress = document.querySelector('.progress');
@@ -8,7 +8,7 @@ const speedSlider = document.querySelector('input[name="playbackSpeed"]');
 const skipButtons = document.querySelectorAll('.skip');
 
 
-// PLAY / PAUSE TOGGLE
+// PLAY / PAUSE FUNCTION
 function togglePlay() {
   if (video.paused) {
     video.play();
@@ -24,35 +24,42 @@ video.addEventListener('click', togglePlay);
 
 
 // UPDATE PROGRESS BAR
-function handleProgress() {
+function updateProgress() {
   const percent = (video.currentTime / video.duration) * 100;
   progressFilled.style.width = `${percent}%`;
 }
 
-video.addEventListener('timeupdate', handleProgress);
+video.addEventListener('timeupdate', updateProgress);
 
 
-// VOLUME CONTROL
+// SEEK BY CLICKING PROGRESS BAR
+progress.addEventListener('click', (e) => {
+  const clickRatio = e.offsetX / progress.offsetWidth;
+  video.currentTime = clickRatio * video.duration;
+});
+
+
+// VOLUME CONTROL (0–1)
 volumeSlider.addEventListener('input', (e) => {
-  video.volume = e.target.value;
+  video.volume = Number(e.target.value);
 });
 
-// SPEED CONTROL
+
+// PLAYBACK SPEED CONTROL (0.5–2)
 speedSlider.addEventListener('input', (e) => {
-  video.playbackRate = e.target.value;
+  video.playbackRate = Number(e.target.value);
 });
 
 
-// SKIP BUTTONS (REWIND & FORWARD)
+// REWIND & FORWARD WITH SAFE LIMITS
 skipButtons.forEach(btn => {
   btn.addEventListener('click', () => {
-    video.currentTime += Number(btn.dataset.skip);
+    const skipValue = Number(btn.dataset.skip);
+    let newTime = video.currentTime + skipValue;
+
+    if (newTime < 0) newTime = 0;
+    if (newTime > video.duration) newTime = video.duration;
+
+    video.currentTime = newTime;
   });
-});
-
-
-// CLICK PROGRESS BAR TO SEEK
-progress.addEventListener('click', (e) => {
-  const position = e.offsetX / progress.offsetWidth;
-  video.currentTime = position * video.duration;
 });
