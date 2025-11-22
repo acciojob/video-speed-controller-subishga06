@@ -9,8 +9,10 @@
 <body>
 
   <div class="player">
+
+    <!-- Video element with required class -->
     <video 
-      class="viewer" 
+      class="viewer player_video" 
       src="https://www.w3schools.com/html/mov_bbb.mp4">
     </video>
 
@@ -32,9 +34,11 @@
       <label>Speed</label>
       <input type="range" name="playbackSpeed" min="0.5" max="2" step="0.1">
 
-      <!-- Skip Buttons -->
-      <button class="skip" data-skip="-10">« 10s</button>
-      <button class="skip" data-skip="25">25s »</button>
+      <!-- Rewind -->
+      <button class="skip rewind" data-skip="-10">« 10s</button>
+
+      <!-- Forward -->
+      <button class="skip forward" data-skip="25">25s »</button>
     </div>
   </div>
 

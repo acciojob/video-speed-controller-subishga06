@@ -1,5 +1,5 @@
-// Select elements
-const video = document.querySelector('.viewer');
+// SELECT ELEMENTS
+const video = document.querySelector('.player_video');
 const toggle = document.querySelector('.toggle');
 const progress = document.querySelector('.progress');
 const progressFilled = document.querySelector('.progress__filled');
@@ -7,21 +7,23 @@ const volumeSlider = document.querySelector('input[name="volume"]');
 const speedSlider = document.querySelector('input[name="playbackSpeed"]');
 const skipButtons = document.querySelectorAll('.skip');
 
-// Play / Pause function
+
+// PLAY / PAUSE TOGGLE
 function togglePlay() {
   if (video.paused) {
     video.play();
-    toggle.textContent = '❚❚'; // Pause icon
+    toggle.textContent = '❚❚';
   } else {
     video.pause();
-    toggle.textContent = '►'; // Play icon
+    toggle.textContent = '►';
   }
 }
 
 toggle.addEventListener('click', togglePlay);
 video.addEventListener('click', togglePlay);
 
-// Update progress bar as video plays
+
+// UPDATE PROGRESS BAR
 function handleProgress() {
   const percent = (video.currentTime / video.duration) * 100;
   progressFilled.style.width = `${percent}%`;
@@ -29,25 +31,28 @@ function handleProgress() {
 
 video.addEventListener('timeupdate', handleProgress);
 
-// Volume control
+
+// VOLUME CONTROL
 volumeSlider.addEventListener('input', (e) => {
   video.volume = e.target.value;
 });
 
-// Playback speed control
+// SPEED CONTROL
 speedSlider.addEventListener('input', (e) => {
   video.playbackRate = e.target.value;
 });
 
-// Skip buttons
+
+// SKIP BUTTONS (REWIND & FORWARD)
 skipButtons.forEach(btn => {
   btn.addEventListener('click', () => {
     video.currentTime += Number(btn.dataset.skip);
   });
 });
 
-// Clicking progress bar to seek
+
+// CLICK PROGRESS BAR TO SEEK
 progress.addEventListener('click', (e) => {
-  const clickPos = e.offsetX / progress.offsetWidth;
-  video.currentTime = clickPos * video.duration;
+  const position = e.offsetX / progress.offsetWidth;
+  video.currentTime = position * video.duration;
 });
