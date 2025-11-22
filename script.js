@@ -2,15 +2,15 @@
 const player = document.querySelector('.player__video');
 const toggle = document.querySelector('.toggle');
 const skipButtons = document.querySelectorAll('[data-skip]');
-const ranges = document.querySelectorAll('.player__slider');
+// Note: Use 'playbackRate' instead of 'playbackSpeed' for the HTML5 video element property
+const ranges = document.querySelectorAll('.player__slider'); 
 const progress = document.querySelector('.progress');
 const progressBar = document.querySelector('.progress__filled');
 
 // 2. Build Functions
 
 /**
- * Toggles the play/pause state of the video.
- * Updates the button text (► or ❚ ❚).
+ * Toggles the play/pause state and updates the button text (► or ❚ ❚).
  */
 function togglePlay() {
   if (player.paused) {
@@ -29,11 +29,11 @@ function updateButton() {
 }
 
 /**
- * Handles volume and playbackSpeed changes from the range sliders.
- * @param {Event} e - The change event from the slider.
+ * Handles volume and playbackRate changes from the range sliders.
  */
 function handleRangeUpdate() {
   // 'this' refers to the input element that triggered the event
+  // 'this.name' will be 'volume' or 'playbackRate'
   player[this.name] = this.value;
 }
 
@@ -41,7 +41,7 @@ function handleRangeUpdate() {
  * Skips the video forward or backward based on the data-skip attribute.
  */
 function skip() {
-  // Parse the data-skip attribute value (which is a string) to a number
+  // Parse the data-skip attribute value to a number and add it to currentTime
   const skipTime = parseFloat(this.dataset.skip);
   player.currentTime += skipTime;
 }
@@ -50,13 +50,14 @@ function skip() {
  * Updates the progress bar width based on the video's current time.
  */
 function handleProgress() {
-  const percent = (player.currentTime / player.duration) * 100;
-  progressBar.style.flexBasis = `${percent}%`;
+  if (player.duration) { // Check if video duration is available
+    const percent = (player.currentTime / player.duration) * 100;
+    progressBar.style.flexBasis = `${percent}%`;
+  }
 }
 
 /**
  * Seeks the video to a new position when the progress bar is clicked/dragged.
- * @param {Event} e - The mouse event.
  */
 function scrub(e) {
   // Calculate the time based on the click position relative to the progress bar width
@@ -77,12 +78,12 @@ player.addEventListener('pause', updateButton);
 // Update progress bar as video plays
 player.addEventListener('timeupdate', handleProgress);
 
-// Handle skip buttons
+// Handle skip buttons (including "« 10s" rewind)
 skipButtons.forEach(button => button.addEventListener('click', skip));
 
 // Handle volume and speed sliders
 ranges.forEach(range => range.addEventListener('change', handleRangeUpdate));
-ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate)); // Optional: Live update on drag
+ranges.forEach(range => range.addEventListener('mousemove', handleRangeUpdate)); // Update live while dragging
 
 // Progress bar seeking (scrubbing)
 let mousedown = false; // Flag to track dragging
@@ -91,5 +92,5 @@ progress.addEventListener('mousemove', (e) => mousedown && scrub(e));
 progress.addEventListener('mousedown', () => mousedown = true);
 progress.addEventListener('mouseup', () => mousedown = false);
 
-// Initialization: Set the initial button state
+// Initial button state (optional, but good practice)
 updateButton();
